@@ -23,7 +23,7 @@ A browser
 
 ## Deployment
 
-####For the html side of things:
+#### For the html side of things:
 * Make sure the list has the **__draggable_list_** class and the list items have the **_draggable_list_item_** so as to prevent editing the tag style property directly.
 
 ```
@@ -54,7 +54,7 @@ for 2 seconds, which is going to apply a brightness filter of 1.2, you can chang
 }
 ```
 
-####For the Javascript:
+#### For the Javascript:
 * In your main js file, create a variable with the ListDragNDropService constructor.
 
 ```
