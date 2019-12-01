@@ -12,6 +12,10 @@ function ListDragNDropService() {
 
     this.registerElem = registerElem;
 
+    function createClasses() {
+        
+    }
+
     function registerElem(node, object) {
         parent = node;
 
@@ -39,7 +43,7 @@ function ListDragNDropService() {
         makeClone(e);
 
         verticalDrag(e);
-        copy.classList.add('ghost');
+        copy.classList.add('_ghost');
 
         copy.addEventListener('drag', verticalDrag);
         copy.addEventListener('dragend', dragEnd);
@@ -64,20 +68,20 @@ function ListDragNDropService() {
 
     function makeClone(e) {
         clone = e.target.cloneNode(true);
-        clone.classList.add('clone');
+        clone.classList.add('_clone');
         clone.style.top = (e.target.pageY + offset) + 'px';
         parent.appendChild(clone);
     };
 
     function highlightTarget(e) {
-        if (e.target.parentElement === parent && !e.target.classList.contains('ghost')) {
+        if (e.target.parentElement === parent && !e.target.classList.contains('_ghost')) {
             e.target.insertAdjacentElement('beforebegin', copy);
         };
     };
 
     function dragEnd(e) {
         clone.remove();
-        copy.classList.remove('ghost');
+        copy.classList.remove('_ghost');
 
         pulse();
         removeListeners();
@@ -99,10 +103,10 @@ function ListDragNDropService() {
     };
 
     function pulse() {
-        copy.classList.add('pulse');
+        copy.classList.add('_pulse');
 
         setTimeout(function () {
-            copy.classList.remove('pulse');
+            copy.classList.remove('_pulse');
         }, 2000);
     };
 
@@ -148,4 +152,46 @@ function ListDragNDropService() {
     }
 
     var config = { childList: true };
+    var style0 = document.createElement('style');
+    style0.id = "_list_drag_style"
+    document.head.prepend(style0);
+    
+    var styleSheet = `
+    ._draggable_list {
+        position: relative;
+    }
+    
+    ._draggable_list_item {
+        cursor: grab;
+        cursor: -moz-grab;
+        cursor: -webkit-grab;
+    }
+    
+    ._ghost {
+        opacity: 0.5;
+        transform: scaleY(.8);
+        transition: .8s opacity ease;
+        transition-delay: .4s;
+    }
+    
+    ._clone {
+        position: absolute;
+        right: 0;
+        left: 0;
+        pointer-events: none;
+    }
+    
+    ._pulse {
+        animation: bg_pulse 1s ease forwards;
+    }
+    
+    @keyframes bg_pulse {
+        0% {
+            filter: brightness(1.2);
+        }
+        100% {
+            filter: brightness(1);
+        }
+    }`
+    style0.innerHTML = styleSheet;
 };
